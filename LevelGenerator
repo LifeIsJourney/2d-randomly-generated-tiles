@@ -1,0 +1,72 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class UseLevelGeneration : MonoBehaviour
+{
+    public GameObject groundTop, TopUpsideDown, groundTopAfterEmpty, frontGround
+        , spikeTopDown, spikeGround,GenerateMoreLevelGame, PowerGo,playerDeadCollider;
+    public Vector2 minMaxContinuousTile = new Vector2(3, 10);
+    public Vector2 minMaxHazardSize = new Vector2(5, 8);
+
+    public int platformCount = 50;
+    public float hazardChance=.5f;
+    public float spikeChance = 0.3f;
+    public float spikeGroundChance = 0.5f;
+public float widthOfGround = 7.5f;
+    public float widthOfGroundAfterEmpty = 5.6f;
+float groundXPos;
+bool isEmpty,noSpikeGround;
+    GameObject tileHolder;
+
+    void Start()
+    {
+        GenerateLevel();
+        
+    }
+    void GenerateLevel()
+    {
+        for (int platform = 0; platform < platformCount; platform++)
+        {//generate empty
+
+            if (isEmpty)
+            {
+                isEmpty = false;
+            }
+            else
+            {
+                if (Random.value < hazardChance)
+                {
+                    isEmpty = true;
+                }
+            }
+
+
+
+            if (isEmpty)
+            {//empty tiles
+
+                int hazardSize = Mathf.RoundToInt
+                      (Random.Range(minMaxContinuousTile.x, minMaxContinuousTile.y));
+
+                groundXPos += hazardSize;
+
+            }
+            else
+            {   //generate normal tile 1. generate spike or ground
+                
+
+                int tileSize = Mathf.RoundToInt
+                (Random.Range(minMaxContinuousTile.x, minMaxContinuousTile.y));
+                for (int tiles = 0; tiles < tileSize; tiles++)
+                {
+                    Instantiate(groundTop, new Vector2(groundXPos, 0),
+                        Quaternion.identity, tileHolder.transform);
+                    groundXPos += widthOfGround;
+                }
+
+
+            }
+       }
+    }
+ }
